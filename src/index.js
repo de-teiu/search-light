@@ -3,35 +3,38 @@ import './index.scss';
 import $ from "jquery";
 
 let isTurnOn = false;
-$(()=> {
-    $("body").on("mousedown",(event)=>{
+$(() => {
+
+    const isPC = isPCMode();
+
+    $("body").on("mousedown", (event) => {
         turnOn();
-        updateLightPosition(event);
+        updateLightPosition(event,isPC);
     })
-    $("body").on("touchstart",(event)=>{
+    $("body").on("touchstart", (event) => {
         turnOn();
-        updateLightPosition(event);
+        updateLightPosition(event,isPC);
     })
 
-    $("body").on("mouseup",() =>{
+    $("body").on("mouseup", () => {
         turnOff();
     })
-    $("body").on("touchend",()=>{
-        turnOff();
-    })
-
-    $("body").on("mouseleave",() =>{
+    $("body").on("touchend", () => {
         turnOff();
     })
 
-    $("body").on("mousemove",(event) =>{
-        updateLightPosition(event);
-    })
-    $("body").on("touchmove",(event) =>{
-        updateLightPosition(event);
+    $("body").on("mouseleave", () => {
+        turnOff();
     })
 
-    
+    $("body").on("mousemove", (event) => {
+        updateLightPosition(event,isPC);
+    })
+    $("body").on("touchmove", (event) => {
+        updateLightPosition(event,isPC);
+    })
+
+
 })
 
 const turnOn = () => {
@@ -46,12 +49,12 @@ const turnOff = () => {
     isTurnOn = false;
 }
 
-const updateLightPosition = (event) => {
-    if(!event.touches && !isPCMode()){
+const updateLightPosition = (event,isPC) => {
+    if (!event.touches && !isPC) {
         return;
     }
-    
-    if(!isTurnOn){
+
+    if (!isTurnOn) {
         return;
     }
 
@@ -60,22 +63,22 @@ const updateLightPosition = (event) => {
         height: $("#light-space").height()
     }
 
-    const position = isPCMode() ? event : event.touches[0];
+    const position = isPC ? event : event.touches[0];
     const cursor = {
-        x:position.clientX
-        ,y: position.clientY
+        x: position.clientX,
+        y: position.clientY
     }
-    
-    light.x = Math.round(cursor.x - $(".light-wrapper").width()/2);
-    light.y = Math.round(cursor.y - $(".light-wrapper").height()/2);
 
-    $(".light-wrapper").css("left",light.x);
-    $(".light-wrapper").css("top",light.y);
-    
-    $("#light").css("width",light.width);
-    $("#light").css("height",light.height);
-    $("#light").css("top",cursor.y - light.height/2);
-    $("#light").css("left",cursor.x - light.width/2);
+    light.x = Math.round(cursor.x - $(".light-wrapper").width() / 2);
+    light.y = Math.round(cursor.y - $(".light-wrapper").height() / 2);
+
+    $(".light-wrapper").css("left", light.x);
+    $(".light-wrapper").css("top", light.y);
+
+    $("#light").css("width", light.width + 10);
+    $("#light").css("height", light.height + 10);
+    $("#light").css("top", cursor.y - light.height / 2 - 5);
+    $("#light").css("left", cursor.x - light.width / 2 - 5);
 }
 const isPCMode = () => {
     const ua = navigator.userAgent

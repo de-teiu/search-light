@@ -35,9 +35,7 @@ body {
         > div {
             flex-grow:1;
             background-color: $color-overlay;
-            &:last-of-type {
-                flex-grow: 1;
-            }
+            border: solid 1.5px $color-overlay;
         }
 
         &:nth-of-type(2) {
