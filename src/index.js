@@ -1,4 +1,5 @@
 import 'sanitize.css';
+import './search-light.scss';
 import './index.scss';
 import $ from "jquery";
 
@@ -9,11 +10,11 @@ $(() => {
 
     $("body").on("mousedown", (event) => {
         turnOn();
-        updateLightPosition(event,isPC);
+        updateLightPosition(event, isPC);
     })
     $("body").on("touchstart", (event) => {
         turnOn();
-        updateLightPosition(event,isPC);
+        updateLightPosition(event, isPC);
     })
 
     $("body").on("mouseup", () => {
@@ -28,10 +29,10 @@ $(() => {
     })
 
     $("body").on("mousemove", (event) => {
-        updateLightPosition(event,isPC);
+        updateLightPosition(event, isPC);
     })
     $("body").on("touchmove", (event) => {
-        updateLightPosition(event,isPC);
+        updateLightPosition(event, isPC);
     })
 
 
@@ -49,7 +50,7 @@ const turnOff = () => {
     isTurnOn = false;
 }
 
-const updateLightPosition = (event,isPC) => {
+const updateLightPosition = (event, isPC) => {
     if (!event.touches && !isPC) {
         return;
     }
