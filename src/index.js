@@ -68,14 +68,14 @@ const updateLightPosition = (event, isPC) => {
     //ライトの大きさを決定
     light.x = Math.round(cursor.x - $("#light-wrapper").width() / 2);
     light.y = Math.round(cursor.y - $("#light-wrapper").height() / 2);
-    $("#light").css("width", light.width);
-    $("#light").css("height", light.height);
+    $("#light").css("width", light.width + 10);
+    $("#light").css("height", light.height + 10);
 
     //暗闇とライトの位置を更新
     $("#light-wrapper").css("left", light.x);
     $("#light-wrapper").css("top", light.y);
-    $("#light").css("top", cursor.y - light.height / 2);
-    $("#light").css("left", cursor.x - light.width / 2);
+    $("#light").css("top", cursor.y - light.height / 2 - 5);
+    $("#light").css("left", cursor.x - light.width / 2 - 5);
 }
 
 /**
