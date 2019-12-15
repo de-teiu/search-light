@@ -13,15 +13,20 @@ $(() => {
     $("body").on("mousedown touchstart", (event) => {
         turnOn();
         updateLightPosition(event, isPC);
-    })
+    });
     //ドラッグしたらライトの位置を更新
     $("body").on("mousemove touchmove", (event) => {
         updateLightPosition(event, isPC);
-    })
+    });
     //画面長押し終了でライト消灯
     $("body").on("mouseup touchend mouseleave", () => {
         turnOff();
-    })
+    });
+
+    //スクロール禁止
+    document.addEventListener('touchmove', function(event){
+        event.preventDefault();
+    }, { passive: false });
 })
 
 /**
