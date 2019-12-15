@@ -1,55 +1,51 @@
 import 'sanitize.css';
-import './search-light.scss';
 import './index.scss';
 import $ from "jquery";
 
 let isTurnOn = false;
+/**
+ * 初期化処理
+ */
 $(() => {
-
+    //PCからのアクセスかどうか判定
     const isPC = isPCMode();
-
-    $("body").on("mousedown", (event) => {
+    //画面長押し開始でライト点灯
+    $("body").on("mousedown touchstart", (event) => {
         turnOn();
         updateLightPosition(event, isPC);
     })
-    $("body").on("touchstart", (event) => {
-        turnOn();
+    //ドラッグしたらライトの位置を更新
+    $("body").on("mousemove touchmove", (event) => {
         updateLightPosition(event, isPC);
     })
-
-    $("body").on("mouseup", () => {
+    //画面長押し終了でライト消灯
+    $("body").on("mouseup touchend mouseleave", () => {
         turnOff();
     })
-    $("body").on("touchend", () => {
-        turnOff();
-    })
-
-    $("body").on("mouseleave", () => {
-        turnOff();
-    })
-
-    $("body").on("mousemove", (event) => {
-        updateLightPosition(event, isPC);
-    })
-    $("body").on("touchmove", (event) => {
-        updateLightPosition(event, isPC);
-    })
-
-
 })
 
+/**
+ * ライト点灯
+ */
 const turnOn = () => {
-    $("#light").addClass("on");
-    $("#light-space").addClass("on");
+    $("#light, #light-space, #light-wrapper").addClass("on");
     isTurnOn = true;
 }
 
+/**
+ * ライト消灯
+ */
 const turnOff = () => {
-    $("#light").removeClass("on");
-    $("#light-space").removeClass("on");
+    $("#light, #light-space, #light-wrapper").removeClass("on");
+    $("#light-wrapper").removeAttr("style");
     isTurnOn = false;
 }
 
+/**
+ * ライトの位置更新
+ * @param {}} event ユーザー操作イベントオブジェクト
+ * @param {*} isPC PCからのアクセスかどうか
+ */
 const updateLightPosition = (event, isPC) => {
     if (!event.touches && !isPC) {
         return;
@@ -63,24 +59,28 @@ const updateLightPosition = (event, isPC) => {
         width: $("#light-space").width(),
         height: $("#light-space").height()
     }
-
+    //ドラッグ中のカーソルの位置を取得
     const position = isPC ? event : event.touches[0];
     const cursor = {
         x: position.clientX,
         y: position.clientY
     }
+    //ライトの大きさを決定
+    light.x = Math.round(cursor.x - $("#light-wrapper").width() / 2);
+    light.y = Math.round(cursor.y - $("#light-wrapper").height() / 2);
+    $("#light").css("width", light.width);
+    $("#light").css("height", light.height);
 
-    light.x = Math.round(cursor.x - $(".light-wrapper").width() / 2);
-    light.y = Math.round(cursor.y - $(".light-wrapper").height() / 2);
-
-    $(".light-wrapper").css("left", light.x);
-    $(".light-wrapper").css("top", light.y);
-
-    $("#light").css("width", light.width + 10);
-    $("#light").css("height", light.height + 10);
-    $("#light").css("top", cursor.y - light.height / 2 - 5);
-    $("#light").css("left", cursor.x - light.width / 2 - 5);
+    //暗闇とライトの位置を更新
+    $("#light-wrapper").css("left", light.x);
+    $("#light-wrapper").css("top", light.y);
+    $("#light").css("top", cursor.y - light.height / 2);
+    $("#light").css("left", cursor.x - light.width / 2);
 }
+
+/**
+ * PCからのアクセスかどうかを判断
+ */
 const isPCMode = () => {
     const ua = navigator.userAgent
     if ((ua.indexOf('iPhone') > 0 || ua.indexOf('Android') > 0) && ua.indexOf('Mobile') > 0) {

@@ -24,7 +24,17 @@ body {
     overscroll-behavior-y: none;
 }
 
-.light-wrapper {
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    img {
+        width:64px;
+    }
+}
+
+#light-wrapper {
     display: flex;
     flex-direction: column;
 
@@ -61,17 +71,22 @@ body {
         height: 33vh;
     }
     background: $color-overlay;
-    flex-grow: 0;
 
     &.on {
+        flex: none;
         background: none;
     }
 }
 
-#light.on {
-    mask-image: $light-gradient;
-    -webkit-mask-image: $light-gradient;
+#light {
+    display: none;
+    &.on {
+        display: block;
+        mask-image: $light-gradient;
+        -webkit-mask-image: $light-gradient;
 
-    position: fixed;
-    background-color: $color-overlay;
+        position: fixed;
+        background-color: $color-overlay;
+    }
+    
 }
