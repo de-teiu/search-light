@@ -74,19 +74,7 @@ body {
 
     &.on {
         flex: none;
-        background: none;
-    }
-}
-
-#light {
-    display: none;
-    &.on {
-        display: block;
         mask-image: $light-gradient;
         -webkit-mask-image: $light-gradient;
-
-        position: fixed;
-        background-color: $color-overlay;
     }
-    
 }
